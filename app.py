@@ -21,7 +21,7 @@ app = Flask(__name__)
 def getJsoHandler():
     return {"values":"1234"}
 
-def changlabel(token,label,user,project):
+def changlabel(token,label,user,project,number):
     g = Github(token)
     repo = g.get_repo(user+"/"+project)
     repo.get_issue(int(number)).edit(labels=label)
@@ -118,7 +118,7 @@ def github():
         text = pretitle+preDes
         label = predic(text)
         token = genToken(appid)
-        changlabel(token,label,user,project)
+        changlabel(token,label,user,project,number)
     return "Complete"
 
 app.run(debug=True,host='0.0.0.0',port=port)
