@@ -1,7 +1,6 @@
 FROM ubuntu:latest
 RUN apt-get update -y
 RUN apt update && apt install -y libsm6 libxext6
-RUN apt-get -y install tesseract-ocr
 RUN apt-get update -y && apt-get install -y python3
 RUN apt-get install -y python3-pip python3-dev build-essential
 
