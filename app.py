@@ -50,7 +50,7 @@ def predic(text):
     from pythainlp.tokenize import word_tokenize
     with open('vocabulary.data', 'rb') as file:
         vocabulary = pickle.load(file)
-    with open('sentiment.data', 'rb') as file:
+    with open('model.data', 'rb') as file:
         classifier = pickle.load(file)
     featurized_test_sentence =  {i:(i in word_tokenize(text.lower())) for i in vocabulary}
     label = classifier.classify(featurized_test_sentence) # ใช้โมเดลที่ train ประมวลผล
