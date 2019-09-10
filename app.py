@@ -24,7 +24,8 @@ def getJsoHandler():
 def changlabel(token,label,user,project,number):
     g = Github(token)
     repo = g.get_repo(user+"/"+project)
-    repo.get_issue(int(number)).edit(labels=label)
+    #repo.get_issue(int(number)).edit(labels=label)
+    repo.get_issue(int(number)).add_to_labels(label)
 
 def genToken(appid):
     exp = datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
