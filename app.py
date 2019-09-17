@@ -9,10 +9,8 @@ import json
 import datetime
 import time
 import calendar
-from jwt import (
-    JWT,
-    jwk_from_pem,
-)
+import jwt
+
 
 trained_dir = ".trained-issues"
 keys_dir = ".keys"
@@ -20,15 +18,18 @@ keys_dir = ".keys"
 port = sys.argv[1]
 app = Flask(__name__)
 
-@app.route('/getvalues', methods = ['GET'])
-def getJsoHandler():
-    return {"values":"1234"}
 
-def changlabel(token,label,user,project,number):
+@app.route('/getvalues', methods=['GET'])
+def getJsoHandler():
+    return {"values": "1234"}
+
+
+def changlabel(token, label, user, project, number):
     g = Github(token)
     repo = g.get_repo(user+"/"+project)
-    #repo.get_issue(int(number)).edit(labels=label)
+    # repo.get_issue(int(number)).edit(labels=label)
     repo.get_issue(int(number)).add_to_labels(label)
+
 
 def genToken(appid):
     exp = datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
@@ -39,15 +40,19 @@ def genToken(appid):
         'iss': 40736,
     }
     with open(f'{keys_dir}/bot-label.pem', 'rb') as fh:
-        signing_key = jwk_from_pem(fh.read())
-    jwt = JWT()
+        # signing_key = jwk_from_pem(fh.read())
+        signing_key = rsa_priv_file.read()
+
+    # jwt = JWT()
     compact_jws = jwt.encode(message, signing_key, 'RS256')
     data = {'Authorization': f'Bearer {compact_jws}',
             'Accept': 'application/vnd.github.machine-man-preview+json'}
-    r = requests.post(url = f"https://api.github.com/app/installations/{appid}/access_tokens", headers = data)
+    r = requests.post(
+        url=f"https://api.github.com/app/installations/{appid}/access_tokens", headers=data)
     data = r.json()
     token = data["token"]
     return token
+
 
 def predic(text):
     import dill as pickle
@@ -56,55 +61,63 @@ def predic(text):
         vocabulary = pickle.load(file)
     with open(f'{trained_dir}/model.data', 'rb') as file:
         classifier = pickle.load(file)
-    featurized_test_sentence =  {i:(i in word_tokenize(text.lower())) for i in vocabulary}
-    label = classifier.classify(featurized_test_sentence) # ใช้โมเดลที่ train ประมวลผล
+    featurized_test_sentence = {
+        i: (i in word_tokenize(text.lower())) for i in vocabulary}
+    # ใช้โมเดลที่ train ประมวลผล
+    label = classifier.classify(featurized_test_sentence)
     return label
 
-#ลบ <>
+# ลบ <>
+
+
 def deltag(msg):
     item = msg.split("<")
-    if len(item)>1:
+    if len(item) > 1:
         msg = item[0]
         for i in item:
             dt = i.split(">")
             j = 1
-            while j<len(dt):
+            while j < len(dt):
                 msg = msg+dt[j]
                 j = j+1
     return msg
 
-#ลบ รูป
+# ลบ รูป
+
+
 def delimg(msg):
     item = msg.split("![")
-    if len(item)>1:
+    if len(item) > 1:
         msg = item[0]
         for i in item:
             dt = i.split(")")
             j = 1
-            while j<len(dt):
+            while j < len(dt):
                 msg = msg+dt[j]
                 j = j+1
     return msg
 
+
 def clean_msg(msg):
     import re
     import string
-    #ลบ image
+    # ลบ image
     msg = delimg(msg)
-    #ลบ <>
+    # ลบ <>
     msg = deltag(msg)
     # ลบ text ที่อยู่ในวงเล็บ <> ทั้งหมด
-    msg = re.sub(r'<.*?>','', msg)
+    msg = re.sub(r'<.*?>', '', msg)
     # ลบ hashtag
-    msg = re.sub(r'#','',msg)
+    msg = re.sub(r'#', '', msg)
     # ลบ เครื่องหมายคำพูด (punctuation)
     for c in string.punctuation:
-        msg = re.sub(r'\{}'.format(c),'',msg)
+        msg = re.sub(r'\{}'.format(c), '', msg)
     # ลบ separator เช่น \n \t
     #msg = ' '.join(msg.split())
     return msg
 
-@app.route('/github', methods = ['POST'])
+
+@app.route('/github', methods=['POST'])
 def github():
     content = request.get_json()
     action = content["action"]
@@ -122,7 +135,8 @@ def github():
         text = pretitle+preDes
         label = predic(text)
         token = genToken(appid)
-        changlabel(token,label,user,project,number)
+        changlabel(token, label, user, project, number)
     return "Complete"
 
-app.run(debug=True,host='0.0.0.0',port=port)
+
+app.run(debug=True, host='0.0.0.0', port=port)
