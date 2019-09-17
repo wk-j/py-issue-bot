@@ -31,6 +31,36 @@ def changlabel(token, label, user, project, number):
     repo.get_issue(int(number)).add_to_labels(label)
 
 
+def get_key_0():
+    from cryptography.x509 import load_pem_x509_certificate
+    from cryptography.hazmat.backends import default_backend
+
+    with open(f'{keys_dir}/wk-j-issue-bot.2019-09-17.private-key.pem', 'rb') as fh:
+        # signing_key = jwk_from_pem(fh.read())
+        signing_key = fh.read()
+
+    cert_obj = load_pem_x509_certificate(signing_key, default_backend())
+    public_key = cert_obj.public_key()
+
+
+def register():
+    # from Crypto.PublicKey import RSAAlgorithm
+    from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
+    jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
+
+
+def get_key():
+    # from Crypto.PublicKey import RSA
+
+    register()
+
+    with open(f'{keys_dir}/wk-j-issue-bot.2019-09-17.private-key.pem', 'rb') as fh:
+        data = fh.read()
+        # private_key = RSA.importKey(data)
+    # return private_key
+    return data
+
+
 def genToken(appid):
     exp = datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
     exp = calendar.timegm(exp.timetuple())
@@ -39,11 +69,7 @@ def genToken(appid):
         'exp': exp,
         'iss': 40736,
     }
-    with open(f'{keys_dir}/bot-label.pem', 'rb') as fh:
-        # signing_key = jwk_from_pem(fh.read())
-        signing_key = rsa_priv_file.read()
-
-    # jwt = JWT()
+    signing_key = get_key()
     compact_jws = jwt.encode(message, signing_key, 'RS256')
     data = {'Authorization': f'Bearer {compact_jws}',
             'Accept': 'application/vnd.github.machine-man-preview+json'}
@@ -113,7 +139,7 @@ def clean_msg(msg):
     for c in string.punctuation:
         msg = re.sub(r'\{}'.format(c), '', msg)
     # ลบ separator เช่น \n \t
-    #msg = ' '.join(msg.split())
+    # msg = ' '.join(msg.split())
     return msg
 
 

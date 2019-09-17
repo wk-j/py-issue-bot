@@ -6,13 +6,14 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-jwt = "*"
 requests = "*"
 pythainlp = "*"
 sklearn = "*"
+PyJWT = "*"
 Flask = "*"
 Flask-RESTful = "*"
 PyGithub = "*"
+pycryptodome = "*"
 
 [requires]
 python_version = "3.7"

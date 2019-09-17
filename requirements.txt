@@ -5,3 +5,4 @@ requests
 PyGithub
 pythainlp
 sklearn
+# pycryptodome
