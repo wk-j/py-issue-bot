@@ -1,8 +1,7 @@
-PyJWT
 flask
 flask_restful
 requests
 PyGithub
 pythainlp
 sklearn
-# pycryptodome
+paramiko

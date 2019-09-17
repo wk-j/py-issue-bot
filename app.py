@@ -9,7 +9,15 @@ import json
 import datetime
 import time
 import calendar
-import jwt
+import logging
+from jwt import (
+    JWT,
+    jwk_from_pem,
+)
+
+
+logging.basicConfig(level=logging.DEBUG,
+                    format='%(name)s - %(levelname)s - %(message)s')
 
 
 trained_dir = ".trained-issues"
@@ -31,35 +39,18 @@ def changlabel(token, label, user, project, number):
     repo.get_issue(int(number)).add_to_labels(label)
 
 
-def get_key_0():
-    from cryptography.x509 import load_pem_x509_certificate
-    from cryptography.hazmat.backends import default_backend
-
-    with open(f'{keys_dir}/wk-j-issue-bot.2019-09-17.private-key.pem', 'rb') as fh:
-        # signing_key = jwk_from_pem(fh.read())
-        signing_key = fh.read()
-
-    cert_obj = load_pem_x509_certificate(signing_key, default_backend())
-    public_key = cert_obj.public_key()
-
-
-def register():
-    # from Crypto.PublicKey import RSAAlgorithm
-    from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
-    jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
+# def register():
+#     # from Crypto.PublicKey import RSAAlgorithm
+#     from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
+#     jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
 
 
 def get_key():
-    # from Crypto.PublicKey import RSA
-
-    register()
-
     with open(f'{keys_dir}/wk-j-issue-bot.2019-09-17.private-key.pem', 'rb') as fh:
-        data = fh.read()
-        # private_key = RSA.importKey(data)
-    # return private_key
-    return data
+        signing_key = jwk_from_pem(fh.read())
 
+    logging.info(f"key - {signing_key}")
+    return signing_key
 
 def genToken(appid):
     exp = datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
@@ -67,15 +58,25 @@ def genToken(appid):
     message = {
         'iat': int(time.time()),
         'exp': exp,
-        'iss': 40736,
+        'iss': 41287,
     }
+
     signing_key = get_key()
+
+    jwt = JWT()
+
     compact_jws = jwt.encode(message, signing_key, 'RS256')
+
     data = {'Authorization': f'Bearer {compact_jws}',
             'Accept': 'application/vnd.github.machine-man-preview+json'}
+
     r = requests.post(
         url=f"https://api.github.com/app/installations/{appid}/access_tokens", headers=data)
+
     data = r.json()
+
+    logging.info(f"response - {data}")
+
     token = data["token"]
     return token
 
