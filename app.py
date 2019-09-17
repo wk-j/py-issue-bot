@@ -75,8 +75,6 @@ def genToken(appid):
 
     data = r.json()
 
-    logging.info(f"response - {data}")
-
     token = data["token"]
     return token
 
