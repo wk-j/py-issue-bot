@@ -15,9 +15,9 @@ WORKDIR /app
 COPY requirements.txt /app
 RUN pip3 install -r requirements.txt
 
-COPY .keys/ /app
-COPY .trained-issues/ /app
+COPY .keys/ /app/.keys
+COPY .trained-issues/ /app/.trained-issues
 COPY app.py /app
-COPY jwt/   /app
+COPY jwt/   /app/jwt
 
 CMD python3 app.py 5555

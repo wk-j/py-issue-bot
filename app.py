@@ -46,7 +46,7 @@ def changlabel(token, label, user, project, number):
 
 
 def get_key():
-    with open(f'{keys_dir}/wk-j-issue-bot.2019-09-17.private-key.pem', 'rb') as fh:
+    with open(f'{keys_dir}/key.pem', 'rb') as fh:
         signing_key = jwk_from_pem(fh.read())
 
     logging.info(f"key - {signing_key}")
