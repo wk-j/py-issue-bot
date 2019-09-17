@@ -14,6 +14,9 @@ from jwt import (
     jwk_from_pem,
 )
 
+trained_dir = ".trained-issues"
+keys_dir = ".keys"
+
 port = sys.argv[1]
 app = Flask(__name__)
 
@@ -35,13 +38,13 @@ def genToken(appid):
         'exp': exp,
         'iss': 40736,
     }
-    with open('bot-label.pem', 'rb') as fh:
+    with open(f'{keys_dir}/bot-label.pem', 'rb') as fh:
         signing_key = jwk_from_pem(fh.read())
     jwt = JWT()
     compact_jws = jwt.encode(message, signing_key, 'RS256')
     data = {'Authorization': f'Bearer {compact_jws}',
             'Accept': 'application/vnd.github.machine-man-preview+json'}
-    r = requests.post(url = f"https://api.github.com/app/installations/{appid}/access_tokens", headers = data) 
+    r = requests.post(url = f"https://api.github.com/app/installations/{appid}/access_tokens", headers = data)
     data = r.json()
     token = data["token"]
     return token
@@ -49,14 +52,14 @@ def genToken(appid):
 def predic(text):
     import dill as pickle
     from pythainlp.tokenize import word_tokenize
-    with open('vocabulary.data', 'rb') as file:
+    with open(f'{trained_dir}/vocabulary.data', 'rb') as file:
         vocabulary = pickle.load(file)
-    with open('model.data', 'rb') as file:
+    with open(f'{trained_dir}/model.data', 'rb') as file:
         classifier = pickle.load(file)
     featurized_test_sentence =  {i:(i in word_tokenize(text.lower())) for i in vocabulary}
     label = classifier.classify(featurized_test_sentence) # ใช้โมเดลที่ train ประมวลผล
     return label
-    
+
 #ลบ <>
 def deltag(msg):
     item = msg.split("<")
