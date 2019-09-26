@@ -5,6 +5,11 @@ import ReactDOM from "react-dom"
 import 'firebase/auth'
 import 'firebase/database'
 
+import { Tag } from "@blueprintjs/core"
+import "@blueprintjs/icons/lib/css/blueprint-icons.css"
+import "@blueprintjs/core/lib/css/blueprint.css"
+import "animate.css"
+
 var firebaseConfig = {
     apiKey: "AIzaSyDXyczRuaZWskx43U-Pamzyw1YaUag79lY",
     authDomain: "github-issue-bot.firebaseapp.com",
@@ -18,6 +23,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 type Issue = {
+    date: string
     title: string
     label: string
     project: string
@@ -39,7 +45,7 @@ class App extends React.Component<{}, State> {
         var [db, collection] = this.init()
         this.loadInitialData(collection)
 
-        collection.onSnapshot((snapshot) => {
+        collection.orderBy("date").onSnapshot((snapshot) => {
             console.log("on snapshot ...");
             this.updateState(snapshot)
         })
@@ -52,16 +58,17 @@ class App extends React.Component<{}, State> {
             issues.push({
                 label: data["label"],
                 title: data["title"],
-                project: data["project"]
+                project: data["project"],
+                date: data["date"]
             })
         });
         this.setState({
-            issues: issues
+            issues: issues.reverse()
         })
     }
 
     loadInitialData = (collection: firebase.firestore.CollectionReference) => {
-        collection.get().then((snapshot) => {
+        collection.orderBy("date").get().then((snapshot) => {
             this.updateState(snapshot)
         })
     }
@@ -78,8 +85,12 @@ class App extends React.Component<{}, State> {
             <div>
                 {
                     this.state.issues.map(x =>
-                        <div>
-                            [{x.project}] {x.title} <span style={{ fontSize: "smaller", color: "grey" }}>{x.label}</span>
+                        <div style={{ padding: "5px" }} className="animated fadeIn">
+                            <span style={{ width: "150px", background: "lightgrey", "padding": "5px" }}>{x.project}</span>
+                            <span style={{ padding: "5px" }}>
+                                {x.date} - {x.title}
+                            </span>
+                            <Tag intent="primary">{x.label}</Tag>
                         </div>
                     )
                 }
