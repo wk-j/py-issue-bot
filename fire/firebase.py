@@ -7,10 +7,10 @@ firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 
-def insert_firebase(title, description, label):
+def insert_firebase(title, project, label):
     doc_ref = db.collection("issues").document()
     doc_ref.set({
         "title": title,
-        "description": description,
+        "project": project,
         "label": label
     })
