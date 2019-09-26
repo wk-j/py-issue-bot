@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "github-issue-bot",
+  "private_key_id": "282365e00f565b60b559a0cbc1b631edb8a595b5",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC36Iii0aPNWv5I\npugSemYzaZGdI8x2qIYZ7nXC2g0vi69dORB3HYzXaML24z19NUNp8jc/nNLovjKl\nAirQoIV5PdrPhKrcfHfsU10EuAwywfJ8fMqSj1GRFp6v8iUhoAmzavnxwligV+aO\n5Nq4gcvWNld1mU+gPnIsWIsAYzEPtCtlQ6mTqjrMoCzoHu7gd2+XDMs+DH/E9Aj+\nU0b3wMKiSfRw04/7KD3BKnkwNSWcsK+ZZaQF9B0rX4hG3xFXY05Qr9FH/ltoPgRh\nZw+OlqZbVi2RPOi68hMx42X3bo9LXnUzLUrwrasO7XJcWDKE7GXtd/7RGy+c/y0X\n70CiCbEZAgMBAAECggEADc5YNo/iGfwZH4tfG+cCJd0onCk4M9a0JX12K/PqXj3A\nYxFR+/01CeVAkJ/vyWbemhUfwmfjmesQWnySigGo73h+JQq+uGlkJ9K8xopKCSPv\n8Bo+q1i0vP17mXYGRVNSMxzGaXinZlce9O53gHcm/hxrfaWuGXeiotNdUQDBSb5C\nLsnbu2CF1swIaDcxjVDZGNBEjd+rEGi8ilp87Ck3T+UthRpKOyBBWId7ZpfiFlaW\nM3dvq1DpgKYmRt8MupI6nTjwr6DifBN0VEUDoYsWgXKF/gLgOShaGUf6P84jDP2z\neWHVP4TkQS+wsBv+LFVJNU4SuclQme+yc01f6AaD8QKBgQDwAlxdF29lzNuSaBrR\nlw52GvYFQmJDHm68G7Z0elKrXsyRhBYkDoK9a57c4MXPmkUyE9JsGGf9p1UT0QFE\nlrIpxDdmUZurMhhefhF3m3vNRq2zFvWLR/ujTAQDQMGB3VDfiKEvmsRYP7p/BP6c\nMCZkWDDRvWbhSVXZOUG8h2e3iQKBgQDEKU5xGS04bqBRnR4FE9iuyB+65iTYSuzt\nqJmRmj46RtBg2SwN3wBXQhZPeM56GlitlCnWHFWliEK7vuX/FtK75e7o/3LfGJao\nTW0u3UI/gD/kv5uTfAaPjbkqR/rbZ9xmxdsHYb3pur7/6vXm1ihhaWYbzXM0V6O2\nv0cpPsE5EQKBgQCWZTRRlTzV8r/oh1m+2kRSl+RwOT/vxSMotsjnRjuFbVsNGFLz\ndzBP2B9tU2BBDe+sSKWD3OtVFEUIrOB5hWDRMUZx1FOSvEpu89qoM4Mph8+SuKFX\nDN1PX3PoQezAHtntqOUwOnAsyIppy8xsPPPhzy2QUHomU9j6zJk3tTW12QKBgQCO\nFZVZ2nCkxYyeUP3jk6KJxy8kg3sAqBTBeDP0ARM9xvk8jVGZooNusNHUMp7sVpUQ\n9ZbwHYnz4qTjtLyHbpKpwzyvzAf6jKbjtWF2ZpGLyWt+V0NrKpTd+ju64nRT5AEC\n+CFUUXnsCHY8jIYc89Y/6MYrMT9XFHvi7N2whGIU4QKBgG7TcqxbIAt8X+Q7oGBU\n+iH637ixC3T3X4apUtBRfiJmPWQmBmIVgTRWmCRpIDOXFehSQSxj3+QN+f9VbSa0\nAztzMYfi6aGp9hD8bwqOey+BeHIgiXHn//lK78iFZKCzYEPcfHdniqSlcoAexpX3\nDjtskUE4JDvq7hp+wrfKCjJi\n-----END PRIVATE KEY-----\n",
+  "client_email": "github-issue-bot@appspot.gserviceaccount.com",
+  "client_id": "105153134750720794746",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/github-issue-bot%40appspot.gserviceaccount.com"
+}

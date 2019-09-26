@@ -15,6 +15,7 @@ from jwt import (
     jwk_from_pem,
 )
 
+from fire import firebase
 
 logging.basicConfig(level=logging.DEBUG,
                     format='%(name)s - %(levelname)s - %(message)s')
@@ -39,11 +40,12 @@ def changlabel(token, label, user, project, number):
 
 
 def get_key():
-    with open(f'{keys_dir}/wk-j-issue-bot.2019-09-17.private-key.pem', 'rb') as fh:
+    with open(f'{keys_dir}/key.pem', 'rb') as fh:
         signing_key = jwk_from_pem(fh.read())
 
     logging.info(f"key - {signing_key}")
     return signing_key
+
 
 def genToken(appid):
     exp = datetime.datetime.utcnow() + datetime.timedelta(minutes=10)
@@ -154,6 +156,7 @@ def github():
         label = predic(text)
         token = genToken(appid)
         changlabel(token, label, user, project, number)
+        firebase.insert_firebase(title, description, label)
     return "Complete"
 
 
