@@ -27,6 +27,7 @@ type Issue = {
     title: string
     label: string
     project: string
+    number: number
 }
 
 type State = {
@@ -59,7 +60,8 @@ class App extends React.Component<{}, State> {
                 label: data["label"],
                 title: data["title"],
                 project: data["project"],
-                date: data["date"]
+                date: data["date"],
+                number: data["number"]
             })
         });
         this.setState({
@@ -79,6 +81,11 @@ class App extends React.Component<{}, State> {
         return [db, collection]
     }
 
+    createLink = (issue: Issue) => {
+        var link = `https://github.com/bcircle/${issue.project}/issues/${issue.number}`;
+        return link
+    }
+
     render = () =>
         <div>
             <h1>Issues ...</h1>
@@ -86,9 +93,9 @@ class App extends React.Component<{}, State> {
                 {
                     this.state.issues.map(x =>
                         <div style={{ padding: "5px" }} className="animated fadeIn">
-                            <span style={{ width: "150px", background: "lightgrey", "padding": "5px" }}>{x.project}</span>
+                            <span style={{ width: "150px", background: "lightgrey", "padding": "3px", borderRadius: "2px" }}>{x.project}</span>
                             <span style={{ padding: "5px" }}>
-                                {x.date} - {x.title}
+                                <a href={this.createLink(x)}>{x.title} (#{x.number}) </a>
                             </span>
                             <Tag intent="primary">{x.label}</Tag>
                         </div>

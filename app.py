@@ -156,7 +156,7 @@ def github():
         label = predic(text)
         token = genToken(appid)
         changlabel(token, label, user, project, number)
-        firebase.insert_firebase(title, project, label)
+        firebase.insert_firebase(title, project, number, label)
     return "Complete"
 
 
