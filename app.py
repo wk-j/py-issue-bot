@@ -35,14 +35,7 @@ def getJsoHandler():
 def changlabel(token, label, user, project, number):
     g = Github(token)
     repo = g.get_repo(user+"/"+project)
-    # repo.get_issue(int(number)).edit(labels=label)
     repo.get_issue(int(number)).add_to_labels(label)
-
-
-# def register():
-#     # from Crypto.PublicKey import RSAAlgorithm
-#     from jwt.contrib.algorithms.pycrypto import RSAAlgorithm
-#     jwt.register_algorithm('RS256', RSAAlgorithm(RSAAlgorithm.SHA256))
 
 
 def get_key():
