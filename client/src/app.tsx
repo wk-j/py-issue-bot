@@ -10,6 +10,8 @@ import "@blueprintjs/icons/lib/css/blueprint-icons.css"
 import "@blueprintjs/core/lib/css/blueprint.css"
 import "animate.css"
 
+import cat = require("./nyan.gif")
+
 var firebaseConfig = {
     apiKey: "AIzaSyDXyczRuaZWskx43U-Pamzyw1YaUag79lY",
     authDomain: "github-issue-bot.firebaseapp.com",
@@ -88,7 +90,9 @@ class App extends React.Component<{}, State> {
 
     render = () =>
         <div>
-            <h1>Issues ...</h1>
+            <h1>
+                <img src={cat} style={{ width: "100px" }} />
+            </h1>
             <div>
                 {
                     this.state.issues.map(x =>
